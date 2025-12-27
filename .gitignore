@@ -1,0 +1,11 @@
+# Environment variables
+.env
+
+# Firebase service account
+src/config/serviceAccount.json
+
+# Node
+node_modules
+
+# Logs
+npm-debug.log*
