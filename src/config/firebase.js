@@ -1,13 +1,28 @@
 import admin from "firebase-admin";
 
-// console.log("FIREBASE_SERVICE_ACCOUNT: ------", process.env);
-const serviceAccount = JSON.parse(
-  process.env.FIREBASE_SERVICE_ACCOUNT
-);
+let db;
+let auth;
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+export function initFirebase() {
+  if (admin.apps.length) return;
 
-export const db = admin.firestore();
-export const auth = admin.auth();
+  if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+    console.error("❌ FIREBASE_SERVICE_ACCOUNT missing");
+    return;
+  }
+
+  const serviceAccount = JSON.parse(
+    process.env.FIREBASE_SERVICE_ACCOUNT
+  );
+
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+
+  db = admin.firestore();
+  auth = admin.auth();
+
+  console.log("✅ Firebase initialized");
+}
+
+export { db, auth };
